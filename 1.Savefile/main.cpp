@@ -30,7 +30,6 @@ void save(std::string fname)
 	//in에 있는 모든 글자를 out에 덧붙여 쓴다.
 	std::copy(std::istreambuf_iterator<char>{in}, {}, std::ostream_iterator<char>{out});
 	
-	
 }
 
 int main()
