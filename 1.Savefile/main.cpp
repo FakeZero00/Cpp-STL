@@ -5,10 +5,11 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include <windows.h>
 
 void save(std::string fname)
 {
-	std::cout << "\"" << fname << "\"" << " 파일을 저장합니다." << '\n';
+	std::cout << "\"" << fname << "\"" << " 파일 저장합니다." << '\n';
 
 	std::ifstream in{ fname };	//RAII
 	if (not in) {
@@ -22,18 +23,21 @@ void save(std::string fname)
 	char c;
 	while (in >> c) std::cout << c;
 	*/
-	
+
 	//저장할 파일을 쓰기 모드로 열기
 	std::ofstream out{ "2026.03.03 STL 2022182034.txt", std::ios::app };
 
 	//in에 있는 모든 글자를 out에 덧붙여 쓴다.
 	std::copy(std::istreambuf_iterator<char>{in}, {}, std::ostream_iterator<char>{out});
 	
+	
 }
 
 int main()
 {
+	SetConsoleOutputCP(65001);
 	std::cout << "2026.03.03" << '\n';
 
 	save("main.cpp");
+	system("pause");
 }
