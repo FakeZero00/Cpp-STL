@@ -18,17 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="save.cpp">
+    <ClCompile Include="..\1.Savefile\save.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="2026.03.03 STL 2022182034.txt">
-      <Filter>소스 파일</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="save.h">
+    <ClInclude Include="..\1.Savefile\save.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
