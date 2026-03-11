@@ -1,10 +1,4 @@
-//Semi Infinite Data
-
-//C++이 가능한 프로그래밍 패러다임 4가지
-//1. 절차적 프로그래밍	>>C언어가 대표적
-//2. 객체 지향 프로그래밍 >>Java가 대표적
-//3. 함수형 프로그래밍 >> Haskell이 대표적
-//4. 일반화 프로그래밍 >> 이게 특기
+//File
 
 #include <iostream>
 #include <Windows.h>
