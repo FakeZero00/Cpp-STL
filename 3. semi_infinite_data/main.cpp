@@ -9,30 +9,71 @@
 #include <iostream>
 #include <Windows.h>
 #include <random>
+#include <algorithm>
+#include <array>
 #include <print>
 #include "save.h"
 using namespace std;
 
-default_random_engine dre;
+//default_random_engine dre;
+random_device rd;
+default_random_engine dre{rd()};
 uniform_int_distribution<int> uid{0, 9999};
+
+template <class T, size_t N>
+class myArray {
+public:
+	T& operator[](size_t index){
+		return arr[index];
+	}
+
+	T* begin() {
+		return &arr[0];
+	}
+	T* end() {
+		return &arr[N];
+	}
+
+	size_t size() const {
+		return N;
+	}
+private:
+	T arr[N];
+};
 
 int main()
 {
 	SetConsoleOutputCP(65001);
-	srand(time(NULL));
 	
 	//[문제] 임의의 값을 갖는 int 1000개 생성, 모든 값 출력.
-	int num[1000];
-	for (int i = 0; i < 1000; ++i)
-	{
+	//int num[1000];
+	myArray<int, 1000> num;
+	//cout << sizeof(num) << endl; //일반 배열과 크기는 같다
+
+	for (int i = 0; i < num.size(); ++i) {
 		num[i] = uid(dre);
 	}
-
-	for (int number : num)
-	{
+	for (int number : num){
 		print("{:8}", number);
 	}
+	cout << endl;
 
-	//save("main.cpp");
+	//[문제] num에 있는 값중에서 최댓값, 최솟값을 찾아 화면에 출력하라.
+	/*
+	int max = numeric_limits<int>::min();
+	for(int number : num){
+		if(number > max){
+			max = num[i];
+		}
+	}
+	//정답은 나오지만 STL에는 이미 더 효율적으로 max값을 찾는 함수가 있음
+	*/
+
+	//structured binding - syntactic sugar(문법적 설탕) -> pair형으로 나와야 할 변수를 각각의 변수로 나눠서 받을 수 있게 해주는 문법
+	//end(num)을 begin(num) + 1000으로 바꿔도 됨. 하지만 array를 사용하게 되면 클래스 안에 begin, end가 이미 정의되어 있기 때문에 num.begin(), num.end()로 쓰는 것이 더 편리하다.
+	auto [minVal, maxVal] = minmax_element(num.begin(), num.end());
+	cout << "최솟값 : " << *minVal << '\n';
+	cout << "최댓값 : " << *maxVal << '\n';
+	save("main.cpp");
 	system("pause");
 }

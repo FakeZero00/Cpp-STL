@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="3. semi_infinite_data.vcxproj" />
+  <Project Path="3. semi_infinite_data.vcxproj" Id="d49a3232-2933-41a7-8ed5-b4b5e3f8f6dd" />
 </Solution>
