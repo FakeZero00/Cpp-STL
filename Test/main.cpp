@@ -59,9 +59,19 @@ int main(void)
 
 	array<Dog, 1000> dogs;
 	in.read((char*)dogs.data(), sizeof(Dog) * dogs.size());
+	cout << dogs[0] << endl;
 
+	/*
 	for(const Dog& dog : dogs)
 		cout << dog << endl;
+	*/
+	/*
+	array <Dog, 1000> dogs;
+	ofstream out{ "Dog Ãµ¸¶¸®.bin", ios::binary };
+	out.write((char*)dogs.data(), dogs.size() * sizeof(Dog));
+	*/
+	
+	
 
 	system("pause");
 }
