@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f8c98fe3-fefc-4d6f-8e64-3fdfc3363b0e}</ProjectGuid>
-    <RootNamespace>Test</RootNamespace>
+    <ProjectGuid>{28040d36-a047-4e27-a835-579687c3927e}</ProjectGuid>
+    <RootNamespace>My5DynamicMemoryAllocation</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,10 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpplatest</LanguageStandard>
-      <SDLCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</SDLCheck>
-    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Save.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Save.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
