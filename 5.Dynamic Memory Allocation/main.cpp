@@ -129,7 +129,7 @@ int main()
 	qsort(a.data(), a.size(), sizeof(array<int, 1000'0000>::value_type), compare);
 
 	//정렬이진 화면 출력
-	for (int num : a | views::take(1000))
+	for (int num : a | views::reverse | views::take(1000))
 		print("{:8}", num);
 
 	cout << endl;
