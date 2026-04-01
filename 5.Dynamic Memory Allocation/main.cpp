@@ -1,16 +1,16 @@
 //Dynamic Memory Allocation
 #include <iostream>
-//#include <array>
+#include <array>
 //#include <numeric>
 //#include <memory>
 #include <fstream>
 #include <string>
 #include <algorithm>
 #include <random>
-#include <array>
 #include <print>
 #include <ranges>
 #include <chrono>
+#include <functional>
 #include "Save.h"
 using namespace std;
 
@@ -70,17 +70,20 @@ bool stdCompare(int a, int b)
 	return a > b;
 }
 
-int f()
+void Jump()
 {
-	cout << "지금 호출된 것은 그냥 함수입니다." << endl;
-	return 0;
+	cout << "점프!" << endl;
 }
+auto Slide = []() {
+	cout << "슬라이드!" << endl;
+	};
 
 class Dog
 {
 public:
-	void operator()() {
-		cout << "왈왈" << endl;
+	bool operator()(int a, int b){
+		cout << "멍" << " ";
+		return a > b;
 	}
 };
 
@@ -217,8 +220,38 @@ int main()
 	a();
 	cout << "람다식 타입: " << typeid(f).name() << endl;*/
 
-	Dog dog;
-	dog();
+	//array<int, 10> a{ 7, 2, 8, 4, 9, 3, 0, 1, 6, 5 };
+
+	//is_sorted(a.begin(), a.end(), stdCompare)	//정렬되어 있는지 확인하는 함수
+	//sort(a.begin(), a.end(), stdCompare);
+	//sort의 3번째 인자로 들어갈 수 있는 건
+	//1. 함수 포인터
+	//2. 오퍼레이터 클래스
+	//3. 람다식
+	//C++ 래퍼(Wrapper)는 수많은 callable type을 하나의 타입으로 묶어서 사용할 수 있게 해주는 템플릿 클래스이다.
+	//function<bool(int, int)> f;
+	//f = [](int a, int b) -> bool 이렇게 써도 되겠지만 람다식의 반환형이 bool이므로 컴파일러가 알아서 추론해주기 때문에 생략 가능하다.
+	/*f = [](int a, int b) {
+		return a < b;
+	};
+	sort(a.begin(), a.end(), f);
+	for (int num : a)
+		cout << num << " ";
+	cout << endl;*/
+
+	//함수 스위칭
+
+	function<void()> Left_Arrow;
+	Left_Arrow = Jump;
+
+	Left_Arrow();
+	Left_Arrow();
+	Left_Arrow();
+	// 설정
+	Left_Arrow = Slide;
+	Left_Arrow();
+	Left_Arrow();
+	Left_Arrow();
 
 	save("main.cpp");
 	system("pause");
