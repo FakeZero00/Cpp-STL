@@ -1,0 +1,308 @@
+=====================================
+ÀúÀå½Ã°£ - 2026-04-07 11:50:43.8714895
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+
+//================================================================
+int main()
+{
+	//string s{"2026ë…„"};
+	//s += " 4ì›” 7ì¼ í™”ìš”ì¼";
+	//cout << s << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+ÀúÀå½Ã°£ - 2026-04-07 11:52:35.6399679
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+
+//================================================================
+int main()
+{
+	string s("2026³â");
+	s += " 4¿ù 7ÀÏ È­¿äÀÏ";
+	cout << s << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+ÀúÀå½Ã°£ - 2026-04-07 11:54:22.4957400
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+
+//================================================================
+int main()
+{
+	string s("2026³â");
+	string t = move(s);
+
+	cout << s << endl;
+	cout << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+ÀúÀå½Ã°£ - 2026-04-07 11:54:49.8246104
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+
+//================================================================
+int main()
+{
+	string s("2026³â");
+	string t = move(s);
+
+	cout << "s - " << s << endl;
+	cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+ÀúÀå½Ã°£ - 2026-04-07 11:56:24.7631106
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+
+//================================================================
+int main()
+{
+	string s{ "2026³â 4¿ù 7ÀÏ È­¿äÀÏ" };
+	string t = move(s);
+
+	cout << "s - " << s << endl;
+	cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+ÀúÀå½Ã°£ - 2026-04-07 11:56:41.8562639
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+
+//================================================================
+int main()
+{
+	string s{ "2026³â 4¿ù 7ÀÏ È­¿äÀÏ" };
+	string t = move(s);
+
+	cout << "s - " << s << endl;
+	cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+ÀúÀå½Ã°£ - 2026-04-07 12:10:49.3194323
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//stringÀº 15±ÛÀÚ±îÁö´Â ½ºÅÃ¿¡ ÀúÀåµÇ°í ±× ÀÌ»óÀº ÇÁ¸®½ºÅä¾î¿¡ ÀúÀåµÇ¾î Æ÷ÀÎÅÍ·Î ÇÁ¸®½ºÅä¾îÀÇ ÁÖ¼Ò¸¦ °¡¸®Å²´Ù.
+
+//================================================================
+
+//string Å¬·¡½º ¸¸µé¾îº¸±â
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		cout << "»ı¼º(char *) - " << "±ÛÀÚ¼ö: " << len << ", °´Ã¼ ÁÖ¼Ò: " << (void *)this
+			<< ", ¹®ÀÚ¿­ ÁÖ¼Ò: " << p.get() << endl;
+	}
+
+private:
+	size_t len{};
+	unique_ptr<char[]> p{};
+};
+
+int main()
+{
+	XString s{ "2026³â 4¿ù 7ÀÏ È­¿äÀÏ" };
+	XString t = move(s);
+	//ÇÁ¸® ½ºÅä¾î¿¡ ÀúÀåµÈ 15±ÛÀÚ°¡ ³Ñ´Â ¹®ÀÚ¿­ÀÇ Æ÷ÀÎÅÍ¸¦ t°¡ s¿¡¼­ °¡Á®¿Í¼­ tÀÇ Æ÷ÀÎÅÍ¿¡ ÇÒ´çÇÑ´Ù. s´Â ´õ ÀÌ»ó ¹®ÀÚ¿­À» °¡¸®Å°Áö ¾Ê°Ô µÈ´Ù.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+ÀúÀå½Ã°£ - 2026-04-07 12:11:56.7647355
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//stringÀº 15±ÛÀÚ±îÁö´Â ½ºÅÃ¿¡ ÀúÀåµÇ°í ±× ÀÌ»óÀº ÇÁ¸®½ºÅä¾î¿¡ ÀúÀåµÇ¾î Æ÷ÀÎÅÍ·Î ÇÁ¸®½ºÅä¾îÀÇ ÁÖ¼Ò¸¦ °¡¸®Å²´Ù.
+
+//================================================================
+
+//string Å¬·¡½º ¸¸µé¾îº¸±â
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		cout << "»ı¼º(char *) - " << "±ÛÀÚ¼ö: " << len << ", °´Ã¼ ÁÖ¼Ò: " << (void *)this
+			<< ", ¹®ÀÚ¿­ ÁÖ¼Ò: " << (void *)p.get() << endl;
+	}
+
+private:
+	size_t len{};
+	unique_ptr<char[]> p{};
+};
+
+int main()
+{
+	XString s{ "2026³â 4¿ù 7ÀÏ È­¿äÀÏ" };
+	XString t = move(s);
+	//ÇÁ¸® ½ºÅä¾î¿¡ ÀúÀåµÈ 15±ÛÀÚ°¡ ³Ñ´Â ¹®ÀÚ¿­ÀÇ Æ÷ÀÎÅÍ¸¦ t°¡ s¿¡¼­ °¡Á®¿Í¼­ tÀÇ Æ÷ÀÎÅÍ¿¡ ÇÒ´çÇÑ´Ù. s´Â ´õ ÀÌ»ó ¹®ÀÚ¿­À» °¡¸®Å°Áö ¾Ê°Ô µÈ´Ù.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+ÀúÀå½Ã°£ - 2026-04-07 12:17:05.7273287
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//stringÀº 15±ÛÀÚ±îÁö´Â ½ºÅÃ¿¡ ÀúÀåµÇ°í ±× ÀÌ»óÀº ÇÁ¸®½ºÅä¾î¿¡ ÀúÀåµÇ¾î Æ÷ÀÎÅÍ·Î ÇÁ¸®½ºÅä¾îÀÇ ÁÖ¼Ò¸¦ °¡¸®Å²´Ù.
+
+//================================================================
+
+//string Å¬·¡½º ¸¸µé¾îº¸±â
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		cout << "»ı¼º(char *) - " << "±ÛÀÚ¼ö: " << len << ", °´Ã¼ ÁÖ¼Ò: " << (void *)this
+			<< ", ¹®ÀÚ¿­ ÁÖ¼Ò: " << (void *)p.get() << endl;
+		//p.get() Ã³·³ ¹®ÀÚ¿­·Î ÇÒ´çµÈ ÁÖ¼Ò¸¦ ±×³É Ãâ·ÂÇÏ¸é ¹®ÀÚ¿­ÀÌ ÀÚ¿Í¹ö¸®¹Ç·Î (void *)À¸·Î ÁÖ¼Ò·Î ¿ÏÀüÈ÷ Ä³½ºÆ½ ÇÒ ÇÊ¿ä°¡ ÀÖ´Ù.
+	}
+
+	friend ostream& operator<<(ostream& os, const XString& xs) {
+		for (int i{}; i < xs.len; i++)
+			os << xs.p.get()[i];
+		return os;
+	}
+
+private:
+	size_t len{};
+	unique_ptr<char[]> p{};
+};
+
+int main()
+{
+	XString s{ "2026³â 4¿ù 7ÀÏ È­¿äÀÏ" };
+	//XString t = move(s);
+	//ÇÁ¸® ½ºÅä¾î¿¡ ÀúÀåµÈ 15±ÛÀÚ°¡ ³Ñ´Â ¹®ÀÚ¿­ÀÇ Æ÷ÀÎÅÍ¸¦ t°¡ s¿¡¼­ °¡Á®¿Í¼­ tÀÇ Æ÷ÀÎÅÍ¿¡ ÇÒ´çÇÑ´Ù. s´Â ´õ ÀÌ»ó ¹®ÀÚ¿­À» °¡¸®Å°Áö ¾Ê°Ô µÈ´Ù.
+
+	cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}
