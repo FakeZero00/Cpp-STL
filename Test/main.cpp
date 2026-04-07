@@ -1,73 +1,42 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <print>
+#include <string>
 #include <array>
-//#include <random>
+#include <ranges>
 using namespace std;
-
-//[문제] 바이너리 모드로 저장한 파일 "Dog 천마리.bin"에는 아래와 같은 맴버를 갖는 Dog 객체
-//1000개가 저장되어 있다.
-//각 Dog 객체는 파일의 write 함수를 사용하여 sizeof(Dog) 바이트를 기록하였다.
-//파일 크기는 40'000 바이트이다.
-//메모리에 Dog 객체를 모두 읽어라.
-//화면에 출력하라.
-//->스트링 자체가 문제가 있었ㅇ므로 제대로된 문제가 아니었음
-
-/*
-random_device rd;
-default_random_engine dre{ rd() };
-uniform_int_distribution<int> uid{ numeric_limits<int>::min(), numeric_limits<int>::max() };
-uniform_int_distribution<int> uidNum{ 1, 9999 };
-uniform_int_distribution<int> uidNameLen{ 10, 30 };
-uniform_int_distribution<int> uidChar{ 'a', 'z' };
-*/
 
 class Dog
 {
-
-	/*
-	public:
-	Dog() : num{ uidNum(dre) }
-	{
-		size_t len = uidNameLen(dre);
-		for (int i = 0; i < len; i++) {
-			name += uidChar(dre);
-		}
-	}
-	*/
 private:
-	string name;		//[10, 30]글자 사이의 랜덤한 이름, 소문자로만. 주의: strirng은 문자열이 길면 스택에 저장되는게 아니라 free store에 저장된다. 짧으면 스택에 저장된다.
-	int num;			//[1, 9999] == [1, 10000)
+	string name; //[1, 15] - SSO로 저장 가능한 최대크기
+	size_t id; //[1, 999'9999]
 
-	friend ostream& operator<<(ostream& os, const Dog& dog)
-	{
-		print(os, "[{:4}] - {}", dog.num, dog.name);
+	friend ostream& operator<<(ostream& os, const Dog& dog) {
+		print(os, "[{:7}] {}", dog.id, dog.name);
 		return os;
 	}
 };
 
+//[문제] eclass에서 다운받은 바이너리 모드로 저장한 파일 "Dog 천만마리"에는
+//Dog 객체 1000만개가 저장되어 있다.
+//각 Dog 객체는 sizeof (Dog) 바이트를 그대로 stream의 write 함수를 사용하여 저장하였다.
+//모든 객체를 읽어 메모리에 저장하라.
+
+array <Dog, 1000'0000> dogs;
+
 int main(void)
 {
-	array<Dog, 1000> dogs;
-	ifstream in{"Dog 천마리", ios::binary};
-	if(not in){ 
+	ifstream in("Dog 천만마리", ios::binary);
+	if (not in)
+	{
 		cout << "파일을 열 수 없습니다." << endl;
 		system("pause");
-		return 404;
+		return 2022182034;
 	}
 
 	in.read((char*)dogs.data(), sizeof(Dog) * dogs.size());
-
-	for(const Dog& dog : dogs)
-		cout << dog << endl;
-	
-	
-	/*
-	array <Dog, 1000> dogs;
-	ofstream out{ "Dog 천마리", ios::binary };
-	out.write((char*)dogs.data(), dogs.size() * sizeof(Dog));
-	*/
+	cout << *(dogs.end() - 1) << endl;
 
 	system("pause");
 }
