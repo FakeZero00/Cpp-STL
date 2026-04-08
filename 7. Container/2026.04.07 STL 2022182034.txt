@@ -305,4 +305,1308 @@ int main()
 
 	save("main.cpp");
 	system("pause");
+}=====================================
+저장시간 - 2026-04-08 15:23:47.3107457
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+
+//================================================================
+
+//string 클래스 만들어보기
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		cout << "생성(char *) - " << "글자수: " << len << ", 객체 주소: " << (void *)this
+			<< ", 문자열 주소: " << (void *)p.get() << endl;
+		//p.get() 처럼 문자열로 할당된 주소를 그냥 출력하면 문자열이 자와버리므로 (void *)으로 주소로 완전히 캐스틱 할 필요가 있다.
+	}
+
+	friend ostream& operator<<(ostream& os, const XString& xs) {
+		for (int i{}; i < xs.len; i++)
+			os << xs.p.get()[i];
+		return os;
+	}
+
+private:
+	size_t len{};
+	unique_ptr<char[]> p{};
+};
+
+int main()
+{
+	XString s{ "2026년 4월 7일 화요일" };
+	XString t = move(s);
+	//프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 15:42:02.7031210
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+//string 클래스 만들어보기
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		cout << "생성(char *) - " << "글자수: " << len << ", 객체 주소: " << (void *)this
+			<< ", 문자열 주소: " << (void *)p.get() << endl;
+		//p.get() 처럼 문자열로 할당된 주소를 그냥 출력하면 문자열이 자와버리므로 (void *)으로 주소로 완전히 캐스팅 할 필요가 있다.
+	}
+
+	friend ostream& operator<<(ostream& os, const XString& xs) {
+		for (int i{}; i < xs.len; i++)
+			os << xs.p.get()[i];
+		return os;
+	}
+
+private:
+	size_t len{};
+	unique_ptr<char[]> p{};
+};
+
+int main()
+{
+	XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 15:53:26.5384569
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include <print>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+//string 클래스 만들어보기
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		/*cout << "생성(char *) - " << "글자수: " << len << ", 객체 주소: " << (void *)this
+			<< ", 문자열 주소: " << (void *)p.get() << endl;*/
+		//p.get() 처럼 문자열로 할당된 주소를 그냥 출력하면 문자열이 자와버리므로 (void *)으로 주소로 완전히 캐스팅 할 필요가 있다.
+
+		special("생성(*)");
+	}
+
+	void special(string moment) {
+		string text;
+		int num = 10;
+		if (len < 10) num = len;
+		for (int i = 0; i < num; ++i)
+			text += p.get()[i];
+		println("[{:7}] {:8} 객체: {:#014X} 글자: {:#014X} 글자 개수: {} 내용: {}",
+			id, moment, (long long)this, (long long)p.get(), len, text);
+	}
+
+	friend ostream& operator<<(ostream& os, const XString& xs) {
+		for (int i{}; i < xs.len; i++)
+			os << xs.p.get()[i];
+		return os;
+	}
+
+private:
+	size_t id{};	//객체 고유 넘버
+	size_t len{};	//글자 수
+	unique_ptr<char[]> p{};	//글자가 저장된 프리스토어 주소
+};
+
+int main()
+{
+	XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 15:55:38.8359247
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include <print>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+//string 클래스 만들어보기
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		/*cout << "생성(char *) - " << "글자수: " << len << ", 객체 주소: " << (void *)this
+			<< ", 문자열 주소: " << (void *)p.get() << endl;*/
+		//p.get() 처럼 문자열로 할당된 주소를 그냥 출력하면 문자열이 자와버리므로 (void *)으로 주소로 완전히 캐스팅 할 필요가 있다.
+
+		special("생성(*)");
+	}
+
+	void special(string moment) {
+		string text;
+		int num = 20;
+		if (len < 20) num = len;
+		for (int i = 0; i < num; ++i)
+			text += p.get()[i];
+		println("[{:7}] - {:8} 객체: {:#014X} 글자: {:#014X} - 글자 개수: {:<6} 내용: {}",
+			id, moment, (long long)this, (long long)p.get(), len, text);
+	}
+
+	friend ostream& operator<<(ostream& os, const XString& xs) {
+		for (int i{}; i < xs.len; i++)
+			os << xs.p.get()[i];
+		return os;
+	}
+
+private:
+	size_t id{};	//객체 고유 넘버
+	size_t len{};	//글자 수
+	unique_ptr<char[]> p{};	//글자가 저장된 프리스토어 주소
+};
+
+int main()
+{
+	XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 15:56:49.1571861
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include <print>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+//string 클래스 만들어보기
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		/*cout << "생성(char *) - " << "글자수: " << len << ", 객체 주소: " << (void *)this
+			<< ", 문자열 주소: " << (void *)p.get() << endl;*/
+		//p.get() 처럼 문자열로 할당된 주소를 그냥 출력하면 문자열이 자와버리므로 (void *)으로 주소로 완전히 캐스팅 할 필요가 있다.
+
+		special("생성(*)");
+	}
+
+	~XString() {
+		//소멸 관찰을 위해 만든 소멸자
+		special("소멸");
+	}
+
+	void special(string moment) {
+		string text;
+		int num = 20;
+		if (len < 20) num = len;
+		for (int i = 0; i < num; ++i)
+			text += p.get()[i];
+		println("[{:7}] - {:8} 객체: {:#014X} 글자: {:#014X} - 글자 개수: {:<6} 내용: {}",
+			id, moment, (long long)this, (long long)p.get(), len, text);
+	}
+
+	friend ostream& operator<<(ostream& os, const XString& xs) {
+		for (int i{}; i < xs.len; i++)
+			os << xs.p.get()[i];
+		return os;
+	}
+
+private:
+	size_t id{};	//객체 고유 넘버
+	size_t len{};	//글자 수
+	unique_ptr<char[]> p{};	//글자가 저장된 프리스토어 주소
+};
+
+int main()
+{
+	XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 15:58:00.9547455
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include <print>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+//string 클래스 만들어보기
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		/*cout << "생성(char *) - " << "글자수: " << len << ", 객체 주소: " << (void *)this
+			<< ", 문자열 주소: " << (void *)p.get() << endl;*/
+		//p.get() 처럼 문자열로 할당된 주소를 그냥 출력하면 문자열이 자와버리므로 (void *)으로 주소로 완전히 캐스팅 할 필요가 있다.
+
+		special("생성(*)");
+	}
+
+	~XString() {
+		//소멸 관찰을 위해 만든 소멸자
+		special("소멸");
+	}
+
+	void special(string moment) {
+		string text;
+		int num = 20;
+		if (len < 20) num = len;
+		for (int i = 0; i < num; ++i)
+			text += p.get()[i];
+		println("[{:7}] - {:8} 객체: {:#014X} 글자: {:#014X} - 글자 개수: {:<6} 내용: {}",
+			id, moment, (long long)this, (long long)p.get(), len, text);
+	}
+
+	friend ostream& operator<<(ostream& os, const XString& xs) {
+		for (int i{}; i < xs.len; i++)
+			os << xs.p.get()[i];
+		return os;
+	}
+
+private:
+	size_t id{};	//객체 고유 넘버
+	size_t len{};	//글자 수
+	unique_ptr<char[]> p{};	//글자가 저장된 프리스토어 주소
+};
+
+int main()
+{
+	XString a[3] = { "12345", "안녕하세요", "Hello, World" };
+	XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 15:59:44.6645367
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include <print>
+#include <array>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+//string 클래스 만들어보기
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		/*cout << "생성(char *) - " << "글자수: " << len << ", 객체 주소: " << (void *)this
+			<< ", 문자열 주소: " << (void *)p.get() << endl;*/
+		//p.get() 처럼 문자열로 할당된 주소를 그냥 출력하면 문자열이 자와버리므로 (void *)으로 주소로 완전히 캐스팅 할 필요가 있다.
+
+		special("생성(*)");
+	}
+
+	~XString() {
+		//소멸 관찰을 위해 만든 소멸자
+		special("소멸");
+	}
+
+	void special(string moment) {
+		string text;
+		int num = 20;
+		if (len < 20) num = len;
+		for (int i = 0; i < num; ++i)
+			text += p.get()[i];
+		println("[{:7}] - {:8} 객체: {:#014X} 글자: {:#014X} - 글자 개수: {:<6} 내용: {}",
+			id, moment, (long long)this, (long long)p.get(), len, text);
+	}
+
+	friend ostream& operator<<(ostream& os, const XString& xs) {
+		for (int i{}; i < xs.len; i++)
+			os << xs.p.get()[i];
+		return os;
+	}
+
+private:
+	size_t id{};	//객체 고유 넘버
+	size_t len{};	//글자 수
+	unique_ptr<char[]> p{};	//글자가 저장된 프리스토어 주소
+};
+
+int main()
+{
+	array <XString, 3>a = { "12345", "안녕하세요", "Hello, World" };
+	XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:02:20.0496598
+=====================================
+
+//Container
+#include <iostream>
+#include <string>
+#include <print>
+#include <array>
+#include <vector>
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+//string 클래스 만들어보기
+class XString {
+public:
+	XString() = default;
+
+	XString(const char* s) {
+		len = strlen(s);
+		p = make_unique<char[]>(len);
+		memcpy(p.get(), s, len);
+		/*cout << "생성(char *) - " << "글자수: " << len << ", 객체 주소: " << (void *)this
+			<< ", 문자열 주소: " << (void *)p.get() << endl;*/
+		//p.get() 처럼 문자열로 할당된 주소를 그냥 출력하면 문자열이 자와버리므로 (void *)으로 주소로 완전히 캐스팅 할 필요가 있다.
+
+		special("생성(*)");
+	}
+
+	~XString() {
+		//소멸 관찰을 위해 만든 소멸자
+		special("소멸");
+	}
+
+	void special(string moment) {
+		string text;
+		int num = 20;
+		if (len < 20) num = len;
+		for (int i = 0; i < num; ++i)
+			text += p.get()[i];
+		println("[{:7}] - {:8} 객체: {:#014X} 글자: {:#014X} - 글자 개수: {:<6} 내용: {}",
+			id, moment, (long long)this, (long long)p.get(), len, text);
+	}
+
+	friend ostream& operator<<(ostream& os, const XString& xs) {
+		for (int i{}; i < xs.len; i++)
+			os << xs.p.get()[i];
+		return os;
+	}
+
+private:
+	size_t id{};	//객체 고유 넘버
+	size_t len{};	//글자 수
+	unique_ptr<char[]> p{};	//글자가 저장된 프리스토어 주소
+};
+
+int main()
+{
+	XString{ "나는 이름이 없지롱" };
+	array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:22:14.4530109
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+//#include <array>
+//#include <vector>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	lookup = true;	//관찰 시작
+	XString s{ "Ready OK" };
+	cout << s << endl;
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:22:39.3439842
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+//#include <array>
+//#include <vector>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	lookup = true;	//관찰 시작
+	XString s{ "Ready OK" };
+	cout << s << endl;
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:24:10.6332144
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:24:27.2691988
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	save("main.cpp");
+	system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:47:04.5708236
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	for (XString xs : a)
+		cout << xs << endl;
+
+	save("main.cpp");
+	//system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:47:27.3389730
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	//lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	for (XString xs : a)
+		cout << xs << endl;
+
+	save("main.cpp");
+	//system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:48:12.9759937
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	//lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	lookup = true;
+	for (XString xs : a)
+		cout << xs << endl;
+	lookup = false;
+
+	save("main.cpp");
+	//system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:49:08.2543061
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	//lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	lookup = true;
+	for (XString& xs : a)
+		cout << xs << endl;
+	lookup = false;
+
+	save("main.cpp");
+	//system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:53:24.9098775
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include <algorithm>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	//lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	lookup = true;
+	//길이 기준 오름차순 정렬
+	sort(a.begin(), a.end(), [](XString& a, XString& b) {
+		return a.getLen() < b.getLen();
+		});
+	for (XString& s : a)
+		cout << s << endl;
+	lookup = false;
+
+	save("main.cpp");
+	//system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:55:36.7509686
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include <algorithm>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	//lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	lookup = true;
+	//길이 기준 오름차순 정렬
+	sort(a.begin(), a.end(), [](XString& a, XString& b) {
+		return a.getLen() < b.getLen();
+		});
+	lookup = false;
+
+	for (XString& s : a)
+		cout << s << endl;
+
+	save("main.cpp");
+	//system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:55:45.3463471
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include <algorithm>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	//lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	lookup = true;
+	//길이 기준 오름차순 정렬
+	sort(a.begin(), a.end(), [](XString& a, XString& b) {
+		return a.getLen() < b.getLen();
+		});
+	lookup = false;
+
+	for (const XString& s : a)
+		cout << s << endl;
+
+	save("main.cpp");
+	//system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:56:25.0407829
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include <algorithm>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	//lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	lookup = true;
+	//길이 기준 오름차순 정렬
+	sort(a.begin(), a.end(), [](XString& a, XString& b) {
+		return a.getLen() < b.getLen();
+		});
+	lookup = false;
+
+	for (const XString& s : a)
+		cout << s << endl;
+
+	save("main.cpp");
+	//system("pause");
+}=====================================
+저장시간 - 2026-04-08 16:59:16.6103214
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include <algorithm>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	//lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	lookup = true;
+	//길이 기준 오름차순 정렬
+	sort(a.begin(), a.end(), [](const XString& a, const XString& b) {	//래퍼런스로 바꾸는 것 잊지 말기. 적어도 주소만 복사하기
+		return a.getLen() < b.getLen();
+		});
+	lookup = false;
+
+	for (const XString& s : a)
+		cout << s << endl;
+
+	save("main.cpp");
+	//system("pause");
+}=====================================
+저장시간 - 2026-04-08 17:15:56.6497182
+=====================================
+
+//Container
+#include <iostream>
+//#include <string>
+//#include <print>
+#include <array>
+//#include <vector>
+#include <algorithm>
+#include "XString.h"
+#include "Save.h"
+using namespace std;
+
+//================================================================
+
+//container
+//[String]
+//string은 15글자까지는 스택에 저장되고 그 이상은 프리스토어에 저장되어 포인터로 프리스토어의 주소를 가리킨다.
+//unique_ptr은 포인터에 저장된 주소를 독점해야하는데. 복사하게 되면 독점이 풀리게 되므로 복제가 금지되어 있다. 그래서 복사 생성자와 복사 대입 연산자가 삭제되어 있다. -> 복사 생성자와 복사 대입 연산자가 삭제된 클래스는 복사가 금지된 클래스라고도 불린다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+
+//string s{"2026년"};
+//->string t = move(s);
+//->string t = static_cast<string&&>(s);
+//->string t{static_cast<string&&>(s)};
+
+//xvalue : 이미 사라진 value
+//expired value, 즉, xvalue에서 뭔가를 가져오는 건 undefined behavior이다.
+
+//================================================================
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+
+int main()
+{
+	//XString{ "나는 이름이 없지롱" };
+	//array <XString, 3> a = { "12345", "안녕하세요", "Hello, World" };
+	//XString s{ "2026년 4월 8일 수요일" }; // -> 21글자.
+	//XString t = s;	//s 안에 복사가 금지된 변수가 있어서 복사 생성자가 금지되어 있어 복사되지 않는다. -> Singleton은 생성자를 삭제하는 놈으로 사용하지 않는 편이 좋다.
+	////프리 스토어에 저장된 15글자가 넘는 문자열의 포인터를 t가 s에서 가져와서 t의 포인터에 할당한다. s는 더 이상 문자열을 가리키지 않게 된다.
+
+	//cout << "s - " << s << endl;
+	//cout << "t - " << t << endl;
+
+	//lookup = true;	//관찰 시작
+	//XString s{ "Ready OK" };
+	//cout << s << endl;
+
+	array<XString, 5> a = { "333", "1", "55555", "4444", "22" };
+
+	lookup = true;
+	//길이 기준 오름차순 정렬
+	sort(a.begin(), a.end(), [](const XString& a, const XString& b) {	//래퍼런스로 바꾸는 것 잊지 말기. 적어도 주소만 복사하기
+		return a.getLen() < b.getLen();
+		});
+	lookup = false;
+
+	for (const XString& s : a)
+		cout << s << endl;
+
+	save("main.cpp");
+	//system("pause");
 }
+
+/* 모던 C++이전의 최대 속도 알고리즘 상태(이동 생성자 없음)
+[      6] - 복사생성 객체: 0X00E7A84FFA30 글자: 0X021856D33150 - 글자 개수: 1      내용: 1
+[      2] - 복사할당 객체: 0X00E7A84FFBD8 글자: 0X021856D33180 - 글자 개수: 3      내용: 333
+[      1] - 복사할당 객체: 0X00E7A84FFBC0 글자: 0X021856D33280 - 글자 개수: 1      내용: 1
+[      6] - 소멸     객체: 0X00E7A84FFA30 글자: 0X021856D33150 - 글자 개수: 1      내용: 1
+[      7] - 복사생성 객체: 0X00E7A84FFA30 글자: 0X021856D33270 - 글자 개수: 5      내용: 55555
+[      3] - 복사할당 객체: 0X00E7A84FFBF0 글자: 0X021856D33140 - 글자 개수: 5      내용: 55555
+[      7] - 소멸     객체: 0X00E7A84FFA30 글자: 0X021856D33270 - 글자 개수: 5      내용: 55555
+[      8] - 복사생성 객체: 0X00E7A84FFA30 글자: 0X021856D332B0 - 글자 개수: 4      내용: 4444
+[      4] - 복사할당 객체: 0X00E7A84FFC08 글자: 0X021856D33110 - 글자 개수: 5      내용: 55555
+[      3] - 복사할당 객체: 0X00E7A84FFBF0 글자: 0X021856D331D0 - 글자 개수: 4      내용: 4444
+[      8] - 소멸     객체: 0X00E7A84FFA30 글자: 0X021856D332B0 - 글자 개수: 4      내용: 4444
+[      9] - 복사생성 객체: 0X00E7A84FFA30 글자: 0X021856D33260 - 글자 개수: 2      내용: 22
+[      5] - 복사할당 객체: 0X00E7A84FFC20 글자: 0X021856D33120 - 글자 개수: 5      내용: 55555
+[      4] - 복사할당 객체: 0X00E7A84FFC08 글자: 0X021856D33240 - 글자 개수: 4      내용: 4444
+[      3] - 복사할당 객체: 0X00E7A84FFBF0 글자: 0X021856D331D0 - 글자 개수: 3      내용: 333
+[      2] - 복사할당 객체: 0X00E7A84FFBD8 글자: 0X021856D33250 - 글자 개수: 2      내용: 22
+[      9] - 소멸     객체: 0X00E7A84FFA30 글자: 0X021856D33260 - 글자 개수: 2      내용: 22
+1
+22
+333
+4444
+55555
+*/
