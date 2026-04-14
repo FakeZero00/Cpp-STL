@@ -58,7 +58,7 @@ XString& XString::operator=(const XString& other)
 }
 
 //이동 생성자
-XString::XString(XString&& other) : id{++gid}
+XString::XString(XString&& other) noexcept: id{++gid} 
 {
 	len = other.len;
 	p.reset(other.p.release()); //other.p가 가지고 있던 주소를 할당 해제, 반환해서 p에 할당한다. other.p는 nullptr이 된다.
@@ -69,7 +69,7 @@ XString::XString(XString&& other) : id{++gid}
 		special("이동생성");
 }
 
-XString& XString::operator=(XString&& other)
+XString& XString::operator=(XString&& other) noexcept
 {
 	if (this == &other) 
 		return *this;
@@ -84,7 +84,7 @@ XString& XString::operator=(XString&& other)
 		special("이동할당");
 }
 	
-size_t XString::getLen() const
+size_t XString::size() const
 {
 	return len;
 }
@@ -105,4 +105,15 @@ std::ostream& operator<<(std::ostream& os, const XString& xs) {
 	for (int i{}; i < xs.len; i++)
 		os << xs.p.get()[i];
 	return os;
+}
+
+std::istream& operator>>(std::istream& is, XString& xs) {
+	std::string s;
+	is >> s;
+	xs.len = s.size();
+	xs.p.reset();
+	xs.p = std::make_unique<char[]>(xs.len);
+	memcpy(xs.p.get(), s.data(), xs.len);
+
+	return is;
 }
