@@ -1,10 +1,14 @@
 //Container
 #include <iostream>
-//#include <string>
 //#include <print>
 #include <array>
-//#include <algorithm>
+#include <algorithm>
 #include <fstream>
+#include <vector>
+#include <thread>
+#include <chrono>
+#include <string>
+#include <numeric>
 #include "XString.h"
 #include "Save.h"
 using namespace std;
@@ -38,6 +42,18 @@ using namespace std;
 //array의 입력 타입으로 element type Must be MoveConstructible and MoveAssignable. 라고 써있지만 MoveConstructible가 안되면 복사 생성자와 복사 대입 연산자가 사용된다.
 //모든 컨테이너는 iterator(반복자)를 제공한다. -> 컨테이너의 요소에 접근할 수 있는 방법을 제공한다.
 //lexicographically(사전식으로)
+//array만 유일하게 스택에 데이터를 저장한다.
+
+//vector는 동적 배열
+//vector 24바이트에 저장하는 정보는
+//첫번째 8바이트에는 현재 데이터가 실제로 저장되어 있는 데이터 개수
+//두번째 8바이트에는 vector가 현재 할당한 메모리의 크기
+//세번째 8바이트에는 vector가 가리키는 프리스토어 공간의 주소
+
+//vector가 이미 할당되어 있는 메모리의 크기를 넘어서는 데이터를 저장해야할 경우,
+//아예 새로운 공간을 할당받아서 그곳에 데이터를 복사, 혹은 이동해서 저장해서 포인터 주소가 가리키게 만든다.
+//물론 이제 쓸모없어진 공간은 해제한다.
+//이 행위의 복잡도는 O(1)인데 amortized(평균?) O(1)이라 부르며 시스템에서 메모리 할당하는 시간이 일정하지 않기때문에 그렇다.
 
 //================================================================
 
@@ -70,11 +86,11 @@ int main()
 	//for (const XString& s : a)
 	//	cout << s << endl;
 
-	array<XString, 5> a {"333", "1", "55555", "22", "4444"};	//array는 스택에 저장
-	
-	cout << "a의 원소수 - " << a.size() << endl;
-	cout << "빈 컨테이너니? - " << boolalpha << a.empty() << endl;
-	cout << "최대 몇 개? - " << a.max_size() << endl;
+	//array<XString, 5> a {"333", "1", "55555", "22", "4444"};	//array는 스택에 저장
+	//
+	//cout << "a의 원소수 - " << a.size() << endl;
+	//cout << "빈 컨테이너니? - " << boolalpha << a.empty() << endl;
+	//cout << "최대 몇 개? - " << a.max_size() << endl;
 
 	//at operator[] front back data
 	//cout << "처음 원소 - " << *a.begin() << endl;
@@ -126,6 +142,98 @@ int main()
 	XString s;
 	while (in >> s)
 		cout << s << endl;*/
+
+	//==================vector 시작==================
+	
+	//vector<int> v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };		//Release, Debug, x64, x32 마다 사용하는 용량이 달라진다. x64 기계라 8바이트 3개를 써서 24바이트가 된다.
+	/*cout << "v의 크기 - " << sizeof(v) << endl;
+	cout << "v의 주소 - " << addressof(v) << endl;
+	cout << "v의 자료형 - " << typeid(v).name() << endl;*/
+
+	//cout << "v의 원소 개수 - " << v.size() << endl;
+	//cout << "v의 현재 할당 되어 있는 메모리 크기 - " << v.capacity() << endl;
+	//cout << "v의 데이터 - " << v.data() << endl;	//프리스토어의 주소
+	//cout << "v가 담을 수 있는 최대 int 개수 - " << v.max_size() << endl;
+
+	//cout << "========원소 1개 추가========" << endl;
+
+	//v.push_back(11);
+	//cout << "v의 원소 개수 - " << v.size() << endl;
+	//cout << "v의 현재 할당 되어 있는 메모리 크기 - " << v.capacity() << endl;	//VisualStudio는 1.5배씩 늘린다.
+	//cout << "v의 데이터 - " << v.data() << endl;
+	//cout << "v가 담을 수 있는 최대 int 개수 - " << v.max_size() << endl;	//deque 자료형이 더 많이 담을 수 있다.
+
+	//vector<int> w;
+	//w = v;
+	//cout << "v의 원소 개수 - " << v.size() << endl;
+	//cout << "v의 현재 할당 되어 있는 메모리 크기 - " << v.capacity() << endl;
+	//cout << "v의 데이터 - " << v.data() << endl;	
+
+	//cout << "========벡터 w========" << endl;
+
+	//v.push_back(11);
+	//cout << "v의 원소 개수 - " << w.size() << endl;
+	//cout << "v의 현재 할당 되어 있는 메모리 크기 - " << w.capacity() << endl;
+	//cout << "v의 데이터 - " << w.data() << endl;	//복사 후, 메모리는 새로 할당된다.
+
+	/*v.clear();
+	for(int n : v)
+		cout << n << endl;
+
+	cout << "v의 원소 개수 - " << v.size() << endl;
+	cout << "v의 현재 할당 되어 있는 메모리 크기 - " << v.capacity() << endl;
+	cout << "v의 데이터 - " << v.data() << endl;
+
+	v.shrink_to_fit();
+
+	cout << "v의 원소 개수 - " << v.size() << endl;
+	cout << "v의 현재 할당 되어 있는 메모리 크기 - " << v.capacity() << endl;
+	cout << "v의 데이터 - " << v.data() << endl;*/
+
+	//[문제] 파일 "main.cpp"에 있는 모든 문자를(공백포함) 메모리에 저장하시오
+	//저장한 문자를 출력하라. vector 외의 다른 컨테이너도 얼마든지 이 문제를 풀 수 있다.
+
+	/*ifstream in{ "main.cpp" };
+	if (not in)
+	{
+		cout << "파일을 확인해 주세요." << endl;
+		return 2022182034;
+	}*/
+
+	//vector<char> v;
+	//char c;
+	//in >> noskipws;	//공백도 읽어오도록 설정
+	//while (in >> c)
+	//	v.push_back(c);
+
+	//for (auto i = v.begin(); i != v.end(); ++i) {
+	//	cout << *i;
+	//	//cout << (char)7; //왜 소리나냐???
+	//	this_thread::sleep_for(30ms);
+	//}
+	//cout << endl;
+
+	//vector<char> v{ istreambuf_iterator<char>{in}, {} };	//벡터 생성시부터 입력 스트림 버퍼 이터레이터로 초기화. {}는 끝을 나타내는 디폴트 생성자.
+	//copy(v.begin(), v.end(), ostream_iterator<char>{cout});	//벡터의 모든 요소를 출력 스트림 버퍼 이터레이터로 복사해서 출력. ostream_iterator는 출력 스트림에 데이터를 쓰는 이터레이터이다. cout은 출력 스트림 객체이다.
+
+	//[문제] 키보드에서 단어를 그만 입력할때까지(Ctrl + Z, Enter) 메모리에 저장하라.
+	//오름차순(ascending order)로 정렬하라.
+
+	/*vector<string> v;
+	string s;
+	while(cin >> s)
+		v.push_back(s);*/
+
+	/*vector<string> v{ istream_iterator<string>{cin}, {} };
+
+	sort(v.begin(), v.end());
+	
+	for (const string& str : v)
+		cout << str << endl;*/
+
+	//[문제] 키보드에서 입력한 모든 정수의 합계를 계산하여 출력하라.
+
+	cout << "합계 - " << accumulate(istream_iterator<int>{cin}, {}, 0LL) << endl;
 
 	save("main.cpp");
 	//system("pause");
