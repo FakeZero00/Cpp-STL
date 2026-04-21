@@ -55,6 +55,10 @@ using namespace std;
 //물론 이제 쓸모없어진 공간은 해제한다.
 //이 행위의 복잡도는 O(1)인데 amortized(평균?) O(1)이라 부르며 시스템에서 메모리 할당하는 시간이 일정하지 않기때문에 그렇다.
 
+//array만 데이터를 스택에 저장. 그 외엔 프리스토어에 저장.
+//list는 .data()함수가 없다?
+//data()는 Contigous하게 데이터를 저장하는 컨테이너에서만 사용할 수 있다.
+
 //================================================================
 
 extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
@@ -232,8 +236,63 @@ int main()
 		cout << str << endl;*/
 
 	//[문제] 키보드에서 입력한 모든 정수의 합계를 계산하여 출력하라.
+	//cout << "합계 - " << accumulate(istream_iterator<int>{cin}, {}, 0LL) << endl;
 
-	cout << "합계 - " << accumulate(istream_iterator<int>{cin}, {}, 0LL) << endl;
+	//lookup = true;
+	/*XString x{ "2026년 4월 21일 화요일23교시입니다" };
+	lookup = true;
+	x.show();
+	lookup = false;*/
+
+	//벡터가 메모리를 확장하는 모습을 관찰해보자 - 컴파일러마다 다르다. 때문에 지금은  Visual Studio에서 관찰한 결과를 보여준다. -> 1.5배씩 확장
+	/*vector<int> v;
+
+	while (true) {
+		v.push_back(1);
+
+		if (v.capacity() == v.size()){
+			cout << "v의 원소 개수 - " << v.size() << endl;
+			cout << "v의 용량 - " << v.capacity() << endl;
+			cout << "v의 데이터 - " << v.data() << endl;
+		}
+	}*/
+
+	//XString의 메시지를 통해 벡터의 내부동작 알아보기
+	//lookup = true;
+	//vector<XString> v;
+	//v.reserve(10);		//reserve는 공간만 확보하고, resize는 공간 확보와 원소도 같이 생성한다. 그래서 resize는 원소 액세스가 가능하지만 reserve는 그렇지 않다.
+
+	//lookup = true;
+
+	//for (int i = 0; i < 3; ++i) {
+	//	cout << endl;
+	//	cout << "원소를 push_back()으로 추가" << endl;
+	//	//v.push_back(to_string(12340 + i).data());
+	//	//v.emplace_back();	//내용물을 비워 놓으면 객체의 디폴트 생성자가 호출된다.
+	//	v.emplace_back(to_string(12340 + i).data());		//emplace_back은 push_back과 달리, 객체를 생성할 때 필요한 인자를 전달해서 객체를 직접 생성한다. 이를 emplacing이라고 한다.
+	//}
+
+	//"main.cpp"의 소문자 개수를 다음과 같이 출력하라.
+	//a - 10
+	//b - 2
+	//..z - 0
+
+	ifstream in{ "main.cpp" };
+	if (not in) {
+		cout << "파일을 확인해 주세요." << endl;
+		return 2022182034;
+	}
+
+	array<int, 26> a{};	// 알파벳 개수가 정해져 있으니 array를 써도 아무런 문제가 없다. map을 쓰는 건 좀 과하다.
+	char c;
+	while (in >> c) {
+		if (islower(c))
+			++a[c - 'a'];
+	}
+	
+	for (int i = 0; i < a.size(); ++i) {
+		cout << static_cast<char>('a' + i) << " - " << a[i] << endl;
+	}
 
 	save("main.cpp");
 	//system("pause");

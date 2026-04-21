@@ -1,5 +1,8 @@
 //------------------------------------------------------
 // STL을 더 잘 알아보려고 만든 자료구조(std::string)과 유사
+// 
+// 생성자는 메모리와 상관이 없다. 메모리를 채우기만 한다.
+// 때문에 벡터에 push_back()할때마다 임시 객체가 생성됬다가 소멸되는 것을 볼 수 있다.
 //2026.4.8 시작
 //------------------------------------------------------
 #include <print>
@@ -89,6 +92,11 @@ size_t XString::size() const
 	return len;
 }
 
+char* XString::data() const
+{
+	return p.get();
+}
+
 void XString::special(std::string moment) {
 	std::string text;
 	//더 좋은 방법이 있다
@@ -99,6 +107,11 @@ void XString::special(std::string moment) {
 
 	std::println("[{:7}] - {:8} 객체: {:#014X} 글자: {:#014X} - 글자 개수: {:<6} 내용: {}",
 		id, moment, (long long)this, (long long)p.get(), len, text);
+}
+
+void XString::show()
+{
+	special("show");
 }
 	
 std::ostream& operator<<(std::ostream& os, const XString& xs) {

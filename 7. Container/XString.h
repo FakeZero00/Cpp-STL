@@ -1,5 +1,7 @@
 //------------------------------------------------------
 // STL을 더 잘 알아보려고 만든 자료구조(std::string)과 유사
+// STL 컨테이너처럼 동작하게
+// 
 //2026.4.8 시작
 //2026.4.8 복사생성/할당
 //2026.4.8 이동생성/할당
@@ -27,7 +29,10 @@ public:
 
 	//컨테이너가 되려면 size라고 이름을 만드는 편이 좋다.
 	size_t size() const;		//size_t getLen() const;
+	char* data() const;			//Contigous 컨테이너 식으로 만들었기에 가능
+	
 	void special(std::string);
+	void show();			//관찰용 출력 함수
 
 	friend std::ostream& operator<<(std::ostream& os, const XString& xs);
 	friend std::istream& operator>>(std::istream& is, XString& xs);
