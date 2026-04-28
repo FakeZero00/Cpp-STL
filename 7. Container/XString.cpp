@@ -7,6 +7,7 @@
 //------------------------------------------------------
 #include <print>
 #include <iostream>
+#include <algorithm>
 #include "XString.h"
 
 size_t XString::gid{ 0 };
@@ -95,6 +96,20 @@ size_t XString::size() const
 char* XString::data() const
 {
 	return p.get();
+}
+
+bool XString::operator== (const XString& rhs) const {
+	//id, len, p가 가리키는 문자열
+	if (len != rhs.len)
+		return false;
+
+	/*for (int i = 0; i < len; ++i) {
+		if(p[i] != rhs.p[i])
+			return false;
+	}
+	return true;*/
+
+	return std::equal(p.get(), p.get() + len, rhs.p.get());
 }
 
 void XString::special(std::string moment) {

@@ -34,6 +34,8 @@ public:
 	void special(std::string);
 	void show();			//관찰용 출력 함수
 
+	bool operator== (const XString& rhs) const;
+
 	friend std::ostream& operator<<(std::ostream& os, const XString& xs);
 	friend std::istream& operator>>(std::istream& is, XString& xs);
 

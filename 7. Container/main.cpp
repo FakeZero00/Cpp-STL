@@ -9,6 +9,8 @@
 #include <chrono>
 #include <string>
 #include <numeric>
+#include <list>
+#include <iterator>
 #include "XString.h"
 #include "Save.h"
 using namespace std;
@@ -58,6 +60,11 @@ using namespace std;
 //array만 데이터를 스택에 저장. 그 외엔 프리스토어에 저장.
 //list는 .data()함수가 없다?
 //data()는 Contigous하게 데이터를 저장하는 컨테이너에서만 사용할 수 있다.
+
+//=========================기말 시작==========================
+//STL을 떠받치는 3개의 기둥. 1. 컨테이너 2. 알고리즘 3. 이터레이터(반복자)
+//알고리즘이 제공하는 함수에 컨테이너는 값을 제공해야 하는데 이때 컨테이너가 제공하는 값을 이터레이터로 제공한다.
+//이터레이터를 이용해 알고리즘이 일을 하면 만약 새로운 자료구조가 들어와도 그 자료구조가 이터레이터를 제공한다면 알고리즘이 해당 자료구조에서도 작동할 수 있게 된다.
 
 //================================================================
 
@@ -277,22 +284,72 @@ int main()
 	//b - 2
 	//..z - 0
 
-	ifstream in{ "main.cpp" };
-	if (not in) {
-		cout << "파일을 확인해 주세요." << endl;
-		return 2022182034;
-	}
+	//ifstream in{ "main.cpp" };
+	//if (not in) {
+	//	cout << "파일을 확인해 주세요." << endl;
+	//	return 2022182034;
+	//}
 
-	array<int, 26> a{};	// 알파벳 개수가 정해져 있으니 array를 써도 아무런 문제가 없다. map을 쓰는 건 좀 과하다.
-	char c;
-	while (in >> c) {
-		if (islower(c))
-			++a[c - 'a'];
-	}
-	
-	for (int i = 0; i < a.size(); ++i) {
-		cout << static_cast<char>('a' + i) << " - " << a[i] << endl;
-	}
+	//array<int, 26> a{};	// 알파벳 개수가 정해져 있으니 array를 써도 아무런 문제가 없다. map을 쓰는 건 좀 과하다.
+	//char c;
+	//while (in >> c) {
+	//	if (islower(c))
+	//		++a[c - 'a'];
+	//}
+	//
+	//for (int i = 0; i < a.size(); ++i) {
+	//	cout << static_cast<char>('a' + i) << " - " << a[i] << endl;
+	//}
+
+	//[문제] v에서 3을 제거하라.
+	/*vector<int> v{ 1, 2, 3, 4, 5 };
+
+	for (int n : v)
+		cout << n << ' ';
+	cout << endl;*/
+
+	//vector<int>::iterator new_end = remove(v.begin(), v.end(), 3);
+	//v.erase(new_end, v.end());	//new_end ~ end() 범위를 쓰레기값이라고 바꾼다.
+	//remove 함수가 컨테이너 내부의 값을 아예 바꿔버리는 건 vector 컨테이너의 권한을 무시하는 행동이다.
+	//때문에 remove함수는 4, 5를 앞으로 옮기고 원래 5가 있던 자리를 데이터의 마지막 위치라고 알려주는 것이다.
+	/*v.erase(remove(v.begin(), v.end(), 3), v.end());*/
+	//C++ 20에서는
+	//erase(v, 3);	//기존 C++의 문법을 파괴해서 다들 싫어하는 듯 하다...
+	/*cout << "현재 v의 용량 - " << v.capacity() << endl;
+	cout << "현재 v의 원소 개수 - " << v.size() << endl;*/
+	//remove할 때에는 반드시 erase도 같이 해야한다. erase-remove idiom(숙어)이라고 불리는 패턴이다.
+
+	/*for(int n : v)
+		cout << n << ' ';
+	cout << endl;*/
+
+	//[문제] v에서 "333"을 제거하라.
+	//vector<XString> v{ "1", "22", "333", "4444", "55555" };
+
+	//lookup = true;
+	////erase(v, "333");
+	//remove(v.begin(), v.end(), "333");
+	//lookup = false;
+
+	//for (const XString& s : v)
+	//	cout << s << ' ';
+	//cout << endl;
+
+	//[문제] "333"을 "22" 다음에 추가해 주세요.
+	list<XString> v{ "1", "22", "4444", "55555" };
+	auto p = v.begin();
+
+	lookup = true;
+	//v.insert(++++v.begin(), "333");
+	// 삽입은 리스트가 더 잘한다.
+	//advance(v.begin(), 2); -> v.begin()은 래퍼런스가 아니라서 인자로 넣을 수 없다.
+	advance(p, 2);
+	v.emplace(p, "333");
+	lookup = false;
+
+	for (const XString& s : v)
+		cout << s << ' ';
+	cout << endl;
 
 	save("main.cpp");
 	//system("pause");
