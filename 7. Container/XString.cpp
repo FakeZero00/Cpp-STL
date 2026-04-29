@@ -112,7 +112,7 @@ bool XString::operator== (const XString& rhs) const {
 	return std::equal(p.get(), p.get() + len, rhs.p.get());
 }
 
-void XString::special(std::string moment) {
+void XString::special(std::string moment) const{
 	std::string text;
 	//더 좋은 방법이 있다
 	int num = 20;
@@ -124,9 +124,10 @@ void XString::special(std::string moment) {
 		id, moment, (long long)this, (long long)p.get(), len, text);
 }
 
-void XString::show()
+void XString::show() const
 {
-	special("show");
+	if(lookup)
+		special("show");
 }
 	
 std::ostream& operator<<(std::ostream& os, const XString& xs) {

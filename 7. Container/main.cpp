@@ -11,6 +11,7 @@
 #include <numeric>
 #include <list>
 #include <iterator>
+#include <ranges>
 #include "XString.h"
 #include "Save.h"
 using namespace std;
@@ -65,6 +66,10 @@ using namespace std;
 //STL을 떠받치는 3개의 기둥. 1. 컨테이너 2. 알고리즘 3. 이터레이터(반복자)
 //알고리즘이 제공하는 함수에 컨테이너는 값을 제공해야 하는데 이때 컨테이너가 제공하는 값을 이터레이터로 제공한다.
 //이터레이터를 이용해 알고리즘이 일을 하면 만약 새로운 자료구조가 들어와도 그 자료구조가 이터레이터를 제공한다면 알고리즘이 해당 자료구조에서도 작동할 수 있게 된다.
+
+//vector는 데이터를 Contigous하게 저장하기 때문에 데이터 Access에 O(1) 시간이 걸린다. 또한 Contigous한 데이터는 CPU의 캐시에 저장될 때에 같이 불러와지기 때문에 Cache Hit가 많이 발생하여 이득이 있다.
+//list는 데이터를 연결 리스트 방식으로 저장하기 때문에 임의의 장소에 데이터를 삽입하거나 삭제하는데 O(1) 시간이 걸려서 유리하지만. Page_Fault를 발생 시키기 쉬운 자료구조이기 때문에 데이터에 Access하는 속도 자체는 조금 느리다.
+//deque는 vector와 list의 장점을 모두 가져오려 한 자료구조지만 그만큼 단점도 같이 가지고 있다.
 
 //================================================================
 
@@ -301,6 +306,8 @@ int main()
 	//	cout << static_cast<char>('a' + i) << " - " << a[i] << endl;
 	//}
 
+	/////////////////////////기말 범위 시작 //////////////////////////
+
 	//[문제] v에서 3을 제거하라.
 	/*vector<int> v{ 1, 2, 3, 4, 5 };
 
@@ -314,7 +321,7 @@ int main()
 	//때문에 remove함수는 4, 5를 앞으로 옮기고 원래 5가 있던 자리를 데이터의 마지막 위치라고 알려주는 것이다.
 	/*v.erase(remove(v.begin(), v.end(), 3), v.end());*/
 	//C++ 20에서는
-	//erase(v, 3);	//기존 C++의 문법을 파괴해서 다들 싫어하는 듯 하다...
+	//erase(v, 3);	//기존 C++의 문법을 파괴해서 다들 싫어하는 듯 하다...일단 전역 함수라는 명칭이 있다.
 	/*cout << "현재 v의 용량 - " << v.capacity() << endl;
 	cout << "현재 v의 원소 개수 - " << v.size() << endl;*/
 	//remove할 때에는 반드시 erase도 같이 해야한다. erase-remove idiom(숙어)이라고 불리는 패턴이다.
@@ -336,22 +343,100 @@ int main()
 	//cout << endl;
 
 	//[문제] "333"을 "22" 다음에 추가해 주세요.
-	list<XString> v{ "1", "22", "4444", "55555" };
+	/*list<XString> v{ "1", "22", "4444", "55555" };
 	auto p = v.begin();
 
-	lookup = true;
+	lookup = true;*/
 	//v.insert(++++v.begin(), "333");
 	// 삽입은 리스트가 더 잘한다.
 	//advance(v.begin(), 2); -> v.begin()은 래퍼런스가 아니라서 인자로 넣을 수 없다.
-	advance(p, 2);
+	/*advance(p, 2);
 	v.emplace(p, "333");
 	lookup = false;
 
 	for (const XString& s : v)
 		cout << s << ' ';
-	cout << endl;
+	cout << endl;*/
 
-	save("main.cpp");
+	//[문제] v에서 길이가 2글자인 element를 삭제하라.
+	//vector<XString> v{ "1", "22", "4444", "55555", "33", "77"};
+
+	/*auto new_end = remove_if(v.begin(), v.end(), [](const XString& x) {
+		return x.size() == 2;
+		});
+	v.erase(new_end, v.end());*/
+
+	/*auto Length2Comp = [](const XString& x) {
+		return x.size() == 2;
+		};
+	erase_if(v, Length2Comp);
+
+	for (const XString& s : v)
+		cout << s << ' ';
+	cout << endl;*/
+	/*list<XString> cont{ "333", "1", "55555", "22", "4444" };
+	vector<XString> cont2{ "333", "1", "55555", "22", "4444" };*/
+
+	//[문제] 컨테이너를 길이 기준 오름차순으로 정렬하라
+	/*sort(cont.begin(), cont.end(), [](const XString& a, const XString& b) {
+		return a.size() < b.size();
+		});*/
+	//list는 연결리스트 방식으로 데이터를 저장하기 ?문에 -연산자를 쓸 수 없어서 sort 함수를 그냥 쓸 수 없다. list 클래스의 sort 멤버 함수를 써야한다.
+	/*lookup = true;
+	cout << "list 컨테이너 정렬" << endl;
+	cont.sort([](const XString& a, const XString& b) {
+		return a.size() < b.size();
+		});
+	cout << "list 컨테이너 정렬 끝" << endl;
+	cout << "vector 컨테이너 정렬" << endl;
+	sort(cont2.begin(), cont2.end(), [](const XString& a, const XString& b) {
+		return a.size() < b.size();
+		});
+	cout << "vector 컨테이너 정렬 끝" << endl;
+	lookup = false;
+	for (const XString& s : cont)
+		cout << s << ' ';
+	cout << endl;*/
+
+	//[문제] 강의 저장 파일을 list<XString>에 저장하라.
+	//길이 오름차순으로 정렬하라.
+	//출력하라.
+
+	ifstream in{ "main.cpp" };
+	if (not in) return 20260429;
+
+	
+	//list<XString> cont{ istream_iterator<XString>{in}, {} };	//벡터는 이렇게 불러오면 안된다. list만 이렇게...
+	vector<XString> cont2{};
+	cont2.reserve(1'0000);
+	cont2.assign(istream_iterator<XString>{in}, {});	//벡터는 이렇게 불러와야 한다.
+	list<XString> cont{ cont2.begin(), cont2.end() };	//벡터에서 리스트로 옮기는 방법
+	//cont2.clear();
+
+	auto LengthComp = [](const XString& a, const XString& b) {
+		return a.size() < b.size();
+		};
+
+	//벡터 정렬 시간
+	{
+		auto b = chrono::high_resolution_clock::now();
+		sort(cont2.begin(), cont2.end(), LengthComp);
+		auto e = chrono::high_resolution_clock::now();
+		cout << "vector 정렬 시간 - " << chrono::duration_cast<chrono::microseconds>(e - b).count() << "us" << endl;
+	}
+	{
+		auto b = chrono::high_resolution_clock::now();
+		cont.sort(LengthComp);
+		auto e = chrono::high_resolution_clock::now();
+		cout << "list 정렬 시간 - " << chrono::duration_cast<chrono::microseconds>(e - b).count() << "us" << endl;
+	}
+	//이동 생성은 list가 더 하지 않지만 어째선지 정렬이 Vector가 더 빠르다.
+	//간단히 말하면 list는 데이터를 액세스 하기 위해 반드시 Sequantial하게 접근해야 하기 때문에 느리기 때문이다.
+
+	for (const XString& xs : cont2)
+		xs.show();
+
+	//save("main.cpp");
 	//system("pause");
 }
 

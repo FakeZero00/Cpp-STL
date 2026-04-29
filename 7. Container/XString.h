@@ -31,8 +31,8 @@ public:
 	size_t size() const;		//size_t getLen() const;
 	char* data() const;			//Contigous 컨테이너 식으로 만들었기에 가능
 	
-	void special(std::string);
-	void show();			//관찰용 출력 함수
+	void special(std::string) const;
+	void show() const;			//관찰용 출력 함수
 
 	bool operator== (const XString& rhs) const;
 
