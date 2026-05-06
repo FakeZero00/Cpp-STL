@@ -67,9 +67,9 @@ using namespace std;
 //알고리즘이 제공하는 함수에 컨테이너는 값을 제공해야 하는데 이때 컨테이너가 제공하는 값을 이터레이터로 제공한다.
 //이터레이터를 이용해 알고리즘이 일을 하면 만약 새로운 자료구조가 들어와도 그 자료구조가 이터레이터를 제공한다면 알고리즘이 해당 자료구조에서도 작동할 수 있게 된다.
 
-//vector는 데이터를 Contigous하게 저장하기 때문에 데이터 Access에 O(1) 시간이 걸린다. 또한 Contigous한 데이터는 CPU의 캐시에 저장될 때에 같이 불러와지기 때문에 Cache Hit가 많이 발생하여 이득이 있다.
+//vector는 데이터를 Contigous하게 저장하기 때문에 데이터 Access에 O(1) 시간이 걸린다. 또한 Contigous한 데이터는 CPU의 캐시에 저장될 때에 같이 불러와지기 때문에 Cache Hit가 많이 발생하여(캐시 적중률의 극대화) 이득이 있다.
 //list는 데이터를 연결 리스트 방식으로 저장하기 때문에 임의의 장소에 데이터를 삽입하거나 삭제하는데 O(1) 시간이 걸려서 유리하지만. Page_Fault를 발생 시키기 쉬운 자료구조이기 때문에 데이터에 Access하는 속도 자체는 조금 느리다.
-//deque는 vector와 list의 장점을 모두 가져오려 한 자료구조지만 그만큼 단점도 같이 가지고 있다.
+//deque는 vector와 list의 장점을 모두 가져오려 한 자료구조. 하지만 그만큼 단점도 같이 가지고 있다.
 
 //================================================================
 
@@ -402,23 +402,25 @@ int main()
 	//길이 오름차순으로 정렬하라.
 	//출력하라.
 
-	ifstream in{ "main.cpp" };
-	if (not in) return 20260429;
+	//ifstream in{ "main.cpp" };
+	//if (not in) return 20260429;
+	//ifstream in2{ "main.cpp" };
+	//if (not in) return 20260429;
 
-	
-	//list<XString> cont{ istream_iterator<XString>{in}, {} };	//벡터는 이렇게 불러오면 안된다. list만 이렇게...
-	vector<XString> cont2{};
-	cont2.reserve(1'0000);
-	cont2.assign(istream_iterator<XString>{in}, {});	//벡터는 이렇게 불러와야 한다.
-	list<XString> cont{ cont2.begin(), cont2.end() };	//벡터에서 리스트로 옮기는 방법
-	//cont2.clear();
+	//
+	//list<XString> words{ istream_iterator<XString>{in}, {} };	//벡터는 이렇게 불러오면 안된다. list만 이렇게...
+	//vector<XString> cont2{};
+	//cont2.reserve(2'0000);
+	//cont2.assign(istream_iterator<XString>{in2}, {});	//벡터는 이렇게 불러와야 한다.
+	////list<XString> cont{ cont2.begin(), cont2.end() };	//벡터에서 리스트로 옮기는 방법
+	////cont2.clear();
 
-	auto LengthComp = [](const XString& a, const XString& b) {
-		return a.size() < b.size();
-		};
+	//auto LengthComp = [](const XString& a, const XString& b) {
+	//	return a.size() < b.size();
+	//	};
 
 	//벡터 정렬 시간
-	{
+	/*{
 		auto b = chrono::high_resolution_clock::now();
 		sort(cont2.begin(), cont2.end(), LengthComp);
 		auto e = chrono::high_resolution_clock::now();
@@ -429,14 +431,52 @@ int main()
 		cont.sort(LengthComp);
 		auto e = chrono::high_resolution_clock::now();
 		cout << "list 정렬 시간 - " << chrono::duration_cast<chrono::microseconds>(e - b).count() << "us" << endl;
-	}
+	}*/
 	//이동 생성은 list가 더 하지 않지만 어째선지 정렬이 Vector가 더 빠르다.
 	//간단히 말하면 list는 데이터를 액세스 하기 위해 반드시 Sequantial하게 접근해야 하기 때문에 느리기 때문이다.
 
-	for (const XString& xs : cont2)
-		xs.show();
+	//[문제] 이번엔 사전순으로 정렬하라. Lexicographical comparison
+	//auto LexComp = [](const XString& a, const XString& b) {
+	//	return lexicographical_compare(a.data(), a.data() + a.size(), b.data(), b.data() + b.size());	//문자열을 사전식으로 비교하는 함수
+	//	};
 
-	//save("main.cpp");
+	//words.sort(LexComp);
+	//sort(cont2.begin(), cont2.end(), LexComp);
+
+	//lookup = true;
+	//for (const XString& xs : words)
+	//	//xs.show();
+	//	cout << xs << endl;
+	//lookup = false;
+
+	//cout << "전체 단어 개수 - " << cont2.size() << endl;
+	////adjacent_find();	//인접한 원소 중에서 같은 원소가 있는지 찾아주는 함수.
+
+	//words.unique();
+	//auto newEnd = unique(cont2.begin(), cont2.end());
+	//cont2.erase(newEnd, cont2.end()); //Vector에서는 이렇게 해야지 제대로 중복 삭제가 된다.
+	//for (const XString& xs : cont2)
+	//	cout << xs << endl;
+	//cout << "서로 다른 단어의 개수는 몇 개인가? - " << cont2.size() << endl;
+
+	//[문제] 중복을 제거하고 남은 단어 중에서 내가 찾는 단어가 알려달라. 없으면 없다, 있으면 몇 번째 단어라고 출력한다.
+	/*while (true) {
+		cout << "찾는 단어는? : ";
+		XString xs;
+		cin >> xs;
+
+		auto target = find(cont2.begin(), cont2.end(), xs);
+		if (target == cont2.end())
+			cout << "단어가 없습니다." << endl;
+		else
+			cout << "단어가 있습니다.\n" << "위치: " << distance(cont2.begin(), target) + 1 << "번째 단어이다." << endl;
+	}*/
+	//distance의 인자를 반대로 바꾸면 words가 list에 저장됬을 때와 vector에 저장됬을 때의 결과가 다른 것을 알 수 있다.
+	//vector는 contigous하게 데이터를 저장하기 때문에 범위를 반대로 하면 음수로 표시를 해 주지만
+	//list는 연결 리스트 방식으로 데이터를 저장하기 때문에 distance 함수가 연산을 하는 것이 아닌 리스트를 앞으로(++) 순회하며 검사하며 거리를 count하기 때문에 숫자가 크게 나온다.
+	//distance 함수는 컨테이너의 이터레이터 종류에 따라 다른 함수 동작을 하는데 이를 tag dispatching이라고 했었고 이제는 if constexpr로 구현한다.
+
+	save("main.cpp");
 	//system("pause");
 }
 
