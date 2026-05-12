@@ -1,8 +1,8 @@
 //Container2
 #include <iostream>
-#include <vector>
-#include <list>
-#include <deque>
+#include <span>
+#include <algorithm>
+#include <ranges>
 #include "XString.h"
 #include "Save.h"
 using namespace std;
@@ -18,48 +18,117 @@ using namespace std;
 //list는 데이터를 연결 리스트 방식으로 저장하기 때문에 임의의 장소에 데이터를 삽입하거나 삭제하는데 O(1) 시간이 걸려서 유리하지만. Page_Fault를 발생 시키기 쉬운 자료구조이기 때문에 데이터에 Access하는 속도 자체는 조금 느리다.
 //deque는 vector와 list의 장점을 모두 가져오려 한 자료구조. 하지만 그만큼 단점도 같이 가지고 있다.
 
+//list가 연결리스트 방식이라 가장 많은 데이터를 담을 수 있을 것 같지만, 실제로는 Vector가 더 많이 담을 수 있다. list는 각 노드마다 포인터 데이터를 덧붙이기 때문에 기본적으로 데이터의 크기가 더 커지기 때문에 그렇다.
+//다만 list 안에 넣을 데이터 자료형이 충분히 크면 vector보다 효율적일 수 있다.
+
+//forward_list - It is Intended that forward_list have zero space or time overhead relative to a hand-written C-style singly linked list.
+//				이것은 forward_list가 수작업으로 작성된 C 스타일의 단일 연결 리스트에 비해 공간 또는 시간 오버헤드가 0이 되도록 의도되어 있습니다.
+//				Features that would conflict with that goal have been omitted.
+// 				이 목표와 충돌하는 기능은 생략되었습니다.
+// 
+//스택이나 큐 같은 일반적인 자료구조는 컨테이너 어댑터로 구현된다. 예를 들어 스택은 덱으로 만든 것이다.
+// 즉, 컨테이너 어댑터는 컨테이너의 인터페이스를 변경하는 래퍼 클래스이다. 컨테이너 어댑터는 특정한 방식으로 데이터를 저장하는 컨테이너를 사용하여 스택, 큐, 우선순위 큐와 같은 자료구조를 구현한다.
+// 
+// 함수(function)은 Callable Object(람다식, 함수 포인터 등등)를 묶기 위해서 만들어졌다.
+// Span은 메모리를 Contigous하게 저장하는 자료구조를 참조하는데 특화된 Light Weight View 객체이다.
+// String은 또 코딩에 있어서 매우 중요한 객체이기 떄문에 string은 span 대신 string_view라는 Light Weight View 객체가 따로 있다.
+// Light Weight View 객체는 데이터 원본은 따로 있고 참조만 할 수 있는 객체로, Span이나 String_view는 데이터 원본의 위치와 크기만을 전달해주는 객체이다.
+// ranges의 views도 Light Weight View 객체이다.
 //================================================================
+
+class Test {
+	char c[1024 * 1024];
+};
 
 extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
 
 int main()
 {
-	{
-		vector<int> v;
+	/*{
+		vector<Test> v;
+		size_t cnt{};
 		while (true) {
 			try {
-				v.push_back(1);
-			}
-			catch (...) {	//...은 모든 예외를 잡는 catch문으로 ellipses라고 불린다.
-				cout << "Vector 최대 원소 개수: " << v.size() << endl;
-				break;
-			}
-		}
-	}
-	{
-		deque<int> v;
-		while (true) {
-			try {
-				v.push_back(1);
+				v.emplace_back();
 			}
 			catch (...) {
-				cout << "Deque 최대 원소 개수: " << v.size() << endl;
+				cout << endl;
+				cout << "벡터 - " << v.size() << endl;
 				break;
 			}
+			if (0 == (++cnt % 1000))
+				cout << ".";
 		}
+		cout << endl;
 	}
 	{
-		list<int> v;
+		deque<Test> v;
+		size_t cnt{};
 		while (true) {
 			try {
-				v.push_back(1);
+				v.emplace_back();
 			}
 			catch (...) {
-				cout << "list 최대 원소 개수: " << v.size() << endl;
+				cout << endl;
+				cout << "덱 - " << v.size() << endl;
 				break;
 			}
+			if (0 == (++cnt % 1000))
+				cout << ".";
 		}
+		cout << endl;
 	}
+	{
+		list<Test> v;
+		size_t cnt{};
+		while (true) {
+			try {
+				v.emplace_back();
+			}
+			catch (...) {
+				cout << endl;
+				cout << "리스트 - " << v.size() << endl;
+				break;
+			}
+			if (0 == (++cnt % 1000))
+				cout << ".";
+		}
+		cout << endl;
+	}*/
+
+	/*deque<int> d{ 1, 2, 3, 4 };
+	d.push_front(0);
+	d.push_back(5);
+
+	d.push_front(-1);
+
+	for (int& num : d)
+		cout << num << "-" << addressof(num) << endl;*/
+
+	/*deque<XString> d{ "1", "22", "333", "4444"};
+
+	lookup = true;
+	for (XString& xs : d)
+		xs.show();
+	lookup = false;*/
+
+	//[문제] XString을 역순으로 출력해보자.
+	XString xs{ "the quick brown fox jumps over the lazy dog" };	//영문에서 모든 알파벳을 포함하는 문장.
+
+	/*sort(xs.data(), xs.data() + xs.size(), [](char a, char b) { return tolower(a) > tolower(b); });
+	cout << xs << endl;*/
+	//아래 코드는 string 일때만 가능...
+	/*for (auto i = xs.rbegin(); i != xs.rend(); ++i)
+		cout << *i;
+	cout << endl;*/
+
+	//XString도 span으로 포장할 수 있다.
+	//span으로 포장하니까 string의 맴버 함수를 쓸 수가 있어졌다!
+	span<char> s(xs.data(), xs.size());
+	for (auto i = s.rbegin(); i != s.rend(); ++i)
+		cout << *i;
+	cout << endl;
+
 
 	save("main.cpp");
 }
