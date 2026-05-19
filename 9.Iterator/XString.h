@@ -10,6 +10,26 @@
 #include <string>
 #include <memory>
 
+class XString_ReverseIterator {
+public:
+	XString_ReverseIterator() = default;
+	XString_ReverseIterator(char* p) : p{ p } {}
+
+	void operator++() {
+		p--;
+	}
+	char operator*() const {
+		return *(p - 1);
+	}
+
+	//반복자끼리 비교 - relational operator
+	//<=>를 프로그래밍 해주면 자동으로 ==, !=, <, >, <=, >=가 만들어진다.
+	auto operator<=>(const XString_ReverseIterator& rhs) const = default;
+
+private:
+	char* p;
+};
+
 class XString {
 public:
 	XString();
@@ -39,6 +59,8 @@ public:
 	//반복자 인터페이스
 	char* begin() const;
 	char* end() const;
+	XString_ReverseIterator rbegin() const;
+	XString_ReverseIterator rend() const;
 
 	friend std::ostream& operator<<(std::ostream& os, const XString& xs);
 	friend std::istream& operator>>(std::istream& is, XString& xs);

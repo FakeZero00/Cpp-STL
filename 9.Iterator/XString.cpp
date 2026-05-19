@@ -113,11 +113,21 @@ bool XString::operator== (const XString& rhs) const {
 }
 
 //반복자 인터페이스
-char* XString::begin() const {
+char* XString::begin() const
+{
 	return p.get();
 }
-char* XString::end() const {
+char* XString::end() const
+{
 	return p.get() + len;
+}
+XString_ReverseIterator XString::rbegin() const
+{
+	return p.get() + len;
+}
+XString_ReverseIterator XString::rend() const
+{
+	return p.get();
 }
 
 void XString::special(std::string moment) const{
