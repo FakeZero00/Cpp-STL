@@ -37,7 +37,7 @@ void f(IT iter)
 	//cout << typeid(IT::iterator_category).name() << endl;
 	
 	//iterator_traits를 이용해서 우회로를 사용한다.
-	cout << typeid(iterator_traits<IT>::value_type).name() << endl;
+	cout << typeid(iterator_traits<IT>::iterator_category).name() << endl;
 }
 
 int main()
@@ -98,9 +98,21 @@ int main()
 
 	XString xs{ "Iterators are a generalization of pointers" };
 
-	for (auto i = xs.rbegin(); i != xs.rend(); ++i)
+	/*for (auto i = xs.rbegin(); i != xs.rend(); ++i)
 		cout << *i << ' ';
-	cout << endl;
+	cout << endl;*/
+
+	//f(xs.rbegin());	//반복자 종류 출력
+
+	/*for (auto i = xs.begin(); i != xs.end(); ++i)
+		cout << *i << '-';
+	cout << endl;*/
+
+	//[문제] xs를 오름차순 정렬하라.
+	//다으 코드가 수정없이 실행되어야 한다.
+
+	sort(xs.begin(), xs.end());
+	cout << xs << endl;
 
 	save("main.cpp");
 }

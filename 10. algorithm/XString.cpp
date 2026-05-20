@@ -113,11 +113,11 @@ bool XString::operator== (const XString& rhs) const {
 }
 
 //반복자 인터페이스
-XString_Iterator XString::begin() const
+XString::iterator XString::begin() const
 {
 	return p.get();
 }
-XString_Iterator XString::end() const
+XString::iterator XString::end() const
 {
 	return p.get() + len;
 }

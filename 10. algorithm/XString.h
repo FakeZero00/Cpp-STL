@@ -82,6 +82,11 @@ private:
 
 class XString {
 public:
+	//표준 컨테이너가 되려면 다음 타입을 제공해야 한다.
+	using iterator = XString_Iterator;
+	using difference_type = ptrdiff_t;
+
+public:
 	XString();
 	~XString();
 	XString(const char* s);
