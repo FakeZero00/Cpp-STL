@@ -112,6 +112,10 @@ bool XString::operator== (const XString& rhs) const {
 	return std::equal(p.get(), p.get() + len, rhs.p.get());
 }
 
+bool XString::operator < (const XString& rhs) const {
+	return len < rhs.len;
+}
+
 //반복자 인터페이스
 XString::iterator XString::begin() const
 {

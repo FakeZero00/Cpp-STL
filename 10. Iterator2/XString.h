@@ -34,6 +34,11 @@ public:
 		++p;
 		return *this;
 	}
+	XString_Iterator operator++(int) {
+		XString_Iterator temp = *this;
+		++p;
+		return temp;
+	}
 	XString_Iterator& operator--() {
 		--p;
 		return *this;
@@ -84,6 +89,7 @@ class XString {
 public:
 	//표준 컨테이너가 되려면 다음 타입을 제공해야 한다.
 	using iterator = XString_Iterator;
+	using value_type = char;
 	using difference_type = ptrdiff_t;
 
 public:
@@ -110,6 +116,7 @@ public:
 	void show() const;			//관찰용 출력 함수
 
 	bool operator== (const XString& rhs) const;
+	bool operator < (const XString& rhs) const;
 
 	//반복자 인터페이스
 	XString_Iterator begin() const;
