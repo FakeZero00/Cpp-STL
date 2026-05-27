@@ -113,7 +113,7 @@ bool XString::operator== (const XString& rhs) const {
 }
 
 bool XString::operator < (const XString& rhs) const {
-	return len < rhs.len;
+	return std::lexicographical_compare(begin(), end(), rhs.begin(), rhs.end());
 }
 
 //반복자 인터페이스
