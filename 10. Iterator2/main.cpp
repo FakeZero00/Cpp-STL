@@ -7,6 +7,9 @@
 #include <array>
 #include <fstream>
 #include <ranges>
+#include <list>
+#include <random>
+#include <unordered_set>
 #include "XString.h"
 #include "Save.h"
 using namespace std;
@@ -21,6 +24,9 @@ using namespace std;
 // STL Associative(연관) Container - 해싱을 위한 컨테이너, key - value pair, O(log n), index로 access하지 않는 컨테이너
 // set, multiset	- key == value
 // map, multimap	- key를 정렬 기준으로 value를 검색
+// 
+// unordered_set, unordered_map은 순서가 보장되지 않는 대신 O(1)로 검색이 가능하다.
+// hahser를 통해 key값을 해싱해서 hash_value를 저장한다. 그렇기 때문에 메모리를 제물로 속도를 얻는 것이나 다름 없다.
 //================================================================
 
 template <class IT, class VAL>
@@ -70,7 +76,16 @@ public:
 	}
 };
 
+template <>
+struct hash<XString> {
+	size_t operator()(const XString& t) const {
+		return 3;
+	}
+};
+
 extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+default_random_engine dre;
+normal_distribution nd{ 0.0, 0.01 };
 
 int main()
 {
@@ -270,9 +285,9 @@ int main()
 		cout << c << " - " << count << endl;
 	}*/
 
-	ifstream in{ "이상한 나라의 앨리스.txt" };
+	/*ifstream in{ "이상한 나라의 앨리스.txt" };
 	if (not in)
-	return 20260526;
+	return 20260526;*/
 
 	//[문제]소설에 사용된 단어와 개수를 출력하라.
 	/*map<XString, int> ximap;
@@ -288,34 +303,120 @@ int main()
 	cout << "단어의 개수: " << ximap.size() << endl;*/
 
 	//[문제] set<XString>에 읽어와라.
-	multiset<XString> s{ istream_iterator<XString>{in}, {} };
+	//multiset<XString> s{ istream_iterator<XString>{in}, {} };
 
-	for(const XString& xs : s)
-		cout << xs << "\t";
+	//for(const XString& xs : s)
+	//	cout << xs << "\t";
+	//cout << endl;
+	//cout << "단어의 개수: " << s.size() << endl;
+	//
+	//while (true) {
+	//	cout << "찾을 단어를 입력하시오: ";
+	//	XString xs;
+	//	cin >> xs;
+
+	//	/*auto [lower, upper] = s.equal_range(xs);
+	//	if (lower != upper) {
+	//		cout << xs << "는 " << distance(lower, upper) << "개 있습니다." << endl;
+	//	}
+	//	else {
+	//		cout << xs << "는 없는 단어입니다." << endl;
+	//	}*/
+
+	//	//[문제] 입력한 단어가 있다면 몇 개인지, 없다면 없는 단어라고 출력하라.
+	//	int cnt = s.count(xs);
+	//	if (cnt) {
+	//		cout << xs << "는 " << cnt << "개 있습니다." << endl;
+	//	}
+	//	else {
+	//		cout << xs << "는 없는 단어입니다." << endl;
+	//	}
+	//}
+
+	//[문제] 파일에 사용된 단어와 사용된 횟수를 출력하라.
+	//map<XString, size_t> xsmap;
+	//
+	//ifstream in{ "이상한 나라의 앨리스.txt" };
+	//if (not in)
+	//	return 20260526;
+
+	//XString xs;
+	//while (in >> xs) {
+	//	xsmap[xs]++;
+	//}
+
+	///*for (const auto& [word, count] : xsmap) {
+	//	cout << word << " - " << count << endl;
+	//}*/
+
+	////[문제] 많이 사용된 단어 순으로(개수 기준으로 내림차순) 출력하라.
+	//multimap<size_t, XString, greater<size_t>> sxmap;
+	//for (const auto& [word, count] : xsmap) {
+	//	sxmap.insert(make_pair(count, word));
+	//}
+
+	//for (const auto& [count, word] : sxmap) {
+	//	cout << word << " - " << count << endl;
+	//}
+
+	//[문제] 게임회사와 히트게임을 map으로 관리한다.
+	/*map<XString, list<XString>> game;
+	game.insert(pair<XString, list<XString>>("펄어비스", { "검은 사막", "붉은 사막" }));
+	game["펄어비스"].emplace_back("보라 사막");
+
+	game.insert(make_pair("닌텐도", list<XString>{"젤다", "마리오"}));
+
+	for (const auto& [company, games] : game) {
+		cout << company;
+		for (const auto& game : games) {
+			cout << " - " << game;
+		}
+		cout << endl;
+	}*/
+
+	//입력한 단어를 정렬 후 출력하라.
+	/*set<XString> s{ istream_iterator<XString>{cin}, {} };
+
+	for (const XString& xs : s)
+		cout << xs << endl;*/
+
+	//[문제] 정규분포를 화면에 출력하라.
+	//map<size_t, size_t> normal_Dist;
+	//for (int i = 0; i < 100'0000; ++i) {
+	//	double num = nd(dre);
+	//	num = num * 5000 + 5000;	//정규분포의 평균이 0이고 표준편차가 1이므로, 평균이 5000이고 표준편차가 5000인 정규분포로 변환한다.
+	//	if (num < 0) num = 0;
+	//	if (num > 10000) num = 10000;
+
+	//	normal_Dist[static_cast<int>(num) / 100]++;
+	//}
+
+	//for (const auto& [range, count] : normal_Dist) {
+	//	cout << range << " - " << count << endl;
+	//}
+
+	//=============================================
+	//Unordered Set
+	//=============================================
+	
+	/*unordered_set<int> us{1, 2, 3, 4};
+	
+	for (int n : us)
+		cout << n << " ";
 	cout << endl;
-	cout << "단어의 개수: " << s.size() << endl;
+	
+	us.insert(9);
 
-	//[문제] 입력한 단어가 있다면 몇 개인지, 없다면 없는 단어라고 출력하라.
-	while (true) {
-		cout << "찾을 단어를 입력하시오: ";
-		XString xs;
-		cin >> xs;
+	for(int n : us)
+		cout << n << " ";
+	cout << endl;*/
 
-		/*auto [lower, upper] = s.equal_range(xs);
-		if (lower != upper) {
-			cout << xs << "는 " << distance(lower, upper) << "개 있습니다." << endl;
-		}
-		else {
-			cout << xs << "는 없는 단어입니다." << endl;
-		}*/
+	//순서가 보장되지 않는다. -> insert 했을때 insert한 순서대로 안나올 수도 있다.
 
-		int cnt = s.count(xs);
-		if (cnt) {
-			cout << xs << "는 " << cnt << "개 있습니다." << endl;
-		}
-		else {
-			cout << xs << "는 없는 단어입니다." << endl;
-		}
+	unordered_set<XString> us{ "2026", "6월", "2일" };
+
+	for (const XString& xs : us) {
+		cout << xs << endl;
 	}
 
 	save("main.cpp");
