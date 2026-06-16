@@ -334,7 +334,7 @@ int main()
 	//vector<XString> v{ "1", "22", "333", "4444", "55555" };
 
 	//lookup = true;
-	////erase(v, "333");
+	//erase(v, "333");
 	//remove(v.begin(), v.end(), "333");
 	//lookup = false;
 
@@ -381,7 +381,7 @@ int main()
 	/*sort(cont.begin(), cont.end(), [](const XString& a, const XString& b) {
 		return a.size() < b.size();
 		});*/
-	//list는 연결리스트 방식으로 데이터를 저장하기 ?문에 -연산자를 쓸 수 없어서 sort 함수를 그냥 쓸 수 없다. list 클래스의 sort 멤버 함수를 써야한다.
+	//list는 연결리스트 방식으로 데이터를 저장하기 때문에 -연산자를 쓸 수 없어서 sort 함수를 그냥 쓸 수 없다. list 클래스의 sort 멤버 함수를 써야한다.
 	/*lookup = true;
 	cout << "list 컨테이너 정렬" << endl;
 	cont.sort([](const XString& a, const XString& b) {
