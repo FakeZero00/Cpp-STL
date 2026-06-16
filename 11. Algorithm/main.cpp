@@ -9,6 +9,7 @@
 #include <numeric>
 #include <fstream>
 #include <ranges>
+#include <list>
 #include "XString.h"
 #include "Save.h"
 using namespace std;
@@ -32,14 +33,49 @@ using namespace std;
 // filter
 // lazy-evaluation
 // universal reference - perfect forwarding(완벽 전달)을 위한 것
-// type traits
+// type traits - 타입 추적
 // concept
 // constrained algorithm
 // projection
 //================================================================
 
-extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
+//template<class T>
+//T add(const T& a, const T& b)
+//{
+//	return a + b;
+//}
 
+template <class T>
+concept isNumber = is_integral_v<T> || is_arithmetic_v<T>;
+
+template<isNumber T>	//concept와 type trait를 통해 자료형을 제한 
+T add(const T& a, const T& b)
+{
+	return a + b;
+}
+
+class Dog {
+public:
+	Dog() = default;
+	Dog(int num) : n{ num } {}
+
+	Dog operator+(const Dog& rhs) const {
+		return Dog{ n + rhs.n };		//RVO = Return Value Optimization, 컴파일러가 최적화해서 객체를 복사하지 않고 바로 반환하는 것
+	}
+
+private:
+	int n;
+
+	friend ostream& operator<<(ostream& os, const Dog& dog) {
+		return os << dog.n;
+	}
+};
+
+//[질문] 내가 만든 class Dog도 concept isNumber에 포함시키고 싶다면?
+//template <>
+//concept isNumber<Dog> = true;
+
+extern bool lookup; //special()에서 관찰 여부를 결정하는 전역 변수
 default_random_engine dre{ random_device{}()};
 
 int main()
@@ -140,16 +176,16 @@ int main()
 		cout << xs << endl;
 	cout << endl;*/
 
-	auto odd = [](int n) {
+	/*auto odd = [](int n) {
 		cout << " 홀수 " << endl;
 		return n % 2; };
 	auto ninemultiples = [](int n) {
 		cout << " 9의 배수 " << endl;
-		return n % 9 == 0; };
+		return n % 9 == 0; };*/
 
 	//views::iota(1, 1000)을 하면 1~1000의 숫자가 저장된 오브젝트가 만들어지는게 아니다! 하나씩 데이터를 만들어내서 변수에 넘겨주는 것이다.
 	//그래서 views를 사용해서 변수를 생성할 때는 auto로 RValue로 받는 것이 좋다.
-	for (auto&& num :
+	/*for (auto&& num :
 		views::iota(1, 20)
 		| views::filter(odd)
 		| views::filter(ninemultiples))
@@ -157,5 +193,26 @@ int main()
 			cout << num << " ";
 		}
 		
-	cout << endl;
+	cout << endl;*/
+
+	//concept
+
+	//cout << add(2, 3) << endl;		//datatype을 deduction해서 int로 함수를 작동
+	//cout << add(2.21, 3.3) << endl;
+
+	//cout << add<string>("2026년", " 6월 16일");		//문자열은 기본적으로는 char*로 deduction되기 때문에 add가 작동하지 않음. 원하는 자료형으로 작동하라는 문법 필요.
+	//cout << add("2026년"s, " 6월 16일"s) << endl;
+	//cout << add(Dog{ 1 }, Dog{ 2 }) << endl;
+
+	//===============================================================================
+	//constrained algorithm
+
+	//vector<string> v{ "2026년", "6월", "16일", "15주 1일" };
+
+	////C++의 권장사항 - 알고리즘은 이제 ranges:: 버전을 사용해주세요.
+	////[질문] XString도 ranges::sort로 정렬할 수 있게 하려면 어떻게 해야 할까?
+	//ranges::sort(v.begin(), v.end(), {}, &string::size);
+
+	//for (const string& s : v)
+	//	cout << s << endl;
 }
